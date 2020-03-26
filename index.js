@@ -22,8 +22,8 @@ io.on('connection', (socket) => {
 
         if(error) return callback(error);
 
-        socket.emit('message', { user: 'admin', text: `${user.name}, welcome to the room ${user.room}` });
-        socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name}, has joined!`});
+        socket.emit('message', { user: 'admin', text: `${user.name}さん！チャットルーム${user.room}へようこそ！` });
+        socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name}さんが入室しました!`});
 
         socket.join(user.room);
 
@@ -44,10 +44,10 @@ io.on('connection', (socket) => {
         const user = removeUser(socket.id);
 
         if(user){
-            io.to(user.room).emit('message', { user: 'admin', text: `${user.name} has left.`});
+            io.to(user.room).emit('message', { user: 'admin', text: `${user.name}さんが退室しました。`});
             io.to(user.room).emit('roomData', { user: user.room, users: getUsersInRoom(user.room)});
         }
     })
 });
 
-server.listen(PORT, () => console.log(`Server has started on port ${PORT}`));
+server.listen(PORT, () => console.log(`PORT:${PORT}でサーバーが起動しています。`));
